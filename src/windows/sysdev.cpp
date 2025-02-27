@@ -15,8 +15,7 @@ StatusCode SysDevGetNetworkCardInfo(NetworkCardInfo **pInfo, size_t *size) {
 
     // 获取网卡信息列表
     std::vector<NetworkCardInfo> list;
-    auto networkCard = NetworkCard();
-    auto code = networkCard.GetList(list);
+    auto code = NetworkCard::GetList(list);
     if (code != StatusCode::StatusCode_Success) {
         return code;
     }

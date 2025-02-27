@@ -28,25 +28,13 @@
  * @brief 网卡信息
  */
 class NetworkCard {
-private:
-    // 设备信息集句柄
-    HDEVINFO deviceInfoSet = INVALID_HANDLE_VALUE;
-
 public:
-    /**
-     * @brief 构造函数
-     */
-    NetworkCard();
-    /**
-     * @brief 析构函数
-     */
-    ~NetworkCard();
     /**
      * @brief 获取网卡信息列表
      * @param list [out] 网卡信息列表
      * @return 状态码
      */
-    StatusCode GetList(std::vector<NetworkCardInfo> &list);
+    static StatusCode GetList(std::vector<NetworkCardInfo> &list);
 };
 
 #endif

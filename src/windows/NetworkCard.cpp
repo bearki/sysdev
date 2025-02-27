@@ -1,21 +1,6 @@
 #include "NetworkCard.hpp"
 
 /**
- * @brief 构造函数
- */
-NetworkCard::NetworkCard() {}
-
-/**
- * @brief 析构函数
- */
-NetworkCard::~NetworkCard() {
-    // 释放设备信息集句柄
-    if (this->deviceInfoSet != INVALID_HANDLE_VALUE) {
-        SetupDiDestroyDeviceInfoList(this->deviceInfoSet);
-    }
-}
-
-/**
  * @brief 获取网卡信息列表
  * @param list [out] 网卡信息列表
  * @return 状态码
