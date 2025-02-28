@@ -12,14 +12,19 @@ if (NOT CMAKE_SYSTEM_NAME)
     set(CMAKE_SYSTEM_PROCESSOR x86_64)
 endif()
 
+# 修复MSVC编译警告
+if(MSVC)
+    add_compile_options(/utf-8)
+endif()
+
 # 设置编译后的静态库文件的输出目录
-set(ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib)
 # 设置编译后的动态库文件的输出目录
-set(LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib)
 # 设置编译后的可执行文件的输出成目录
-set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin)
 # 设定编译后生成的制品文件安装目录前缀
-set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/dist)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 
 # 配置引用头文件目录
 include_directories(${CMAKE_SOURCE_DIR}/include

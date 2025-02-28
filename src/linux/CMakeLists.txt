@@ -9,5 +9,6 @@ set_target_properties(sysdev_linux PROPERTIES OUTPUT_NAME "sysdev")
 set(INSTALL_PATH libsysdev_${BUILD_OS}_${BUILD_ARCH})
 # 头文件
 install(FILES ${CMAKE_SOURCE_DIR}/include/sysdev/sysdev.h DESTINATION ${INSTALL_PATH}/include)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/sysdev.pc DESTINATION ${INSTALL_PATH})
 # ARCHIVE-静态库，LIBRATY-动态库，RUNTIME-可执行二进制文件
 install(TARGETS sysdev_linux ARCHIVE DESTINATION ${INSTALL_PATH}/lib)
