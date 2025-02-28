@@ -1,4 +1,5 @@
 #include "NetworkCard.hpp"
+#include <string>
 
 /**
  * @brief 获取网卡信息

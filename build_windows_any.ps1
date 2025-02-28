@@ -72,7 +72,7 @@ process {
     mingw32-make -C "${ProjectRootPath}/build" install
 
     # 执行压缩
-    Compress-Archive -Path "${ProjectRootPath}/dist/libsysdev_windows_${BuildArch}/*" -DestinationPath "${ProjectRootPath}/dist/libsysdev_windows_${BuildArch}.zip"
+    Compress-Archive -Path "${ProjectRootPath}/dist/libsysdev_windows_${BuildArch}/*" -DestinationPath "${ProjectRootPath}/dist/libsysdev_windows_${BuildArch}.zip" -Force
 }
 
 end {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <sysdev/sysdev.h>
-#include <vector>
-
 #ifndef _NETWORK_CARD_INFO_HPP_
 #define _NETWORK_CARD_INFO_HPP_
+
+#include <sysdev/sysdev.h>
+#include <vector>
 
 /**
  * @brief 网卡信息

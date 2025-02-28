@@ -29,5 +29,5 @@ int main()
                   << std::endl;
     }
 
-    getchar();
+    // getchar();
 }

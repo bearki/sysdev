@@ -1,4 +1,5 @@
 #include "NetworkCard.hpp"
+#include <string>
 #include <windows.h>
 #include <cfgmgr32.h>
 #include <devguid.h>
@@ -76,7 +77,7 @@ StatusCode NetworkCard::GetList(std::vector<NetworkCardInfo> &list)
             continue;
         }
 
-        // 获取网卡的MAC地址
+        // 创建设备文件句柄
         HANDLE deviceFileHandle = INVALID_HANDLE_VALUE;
         deviceFileHandle = CreateFileA(deviceInterfaceDetailData->DevicePath, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
         if (deviceFileHandle == INVALID_HANDLE_VALUE)
@@ -100,33 +101,25 @@ StatusCode NetworkCard::GetList(std::vector<NetworkCardInfo> &list)
             // 获取失败，跳过
             continue;
         }
-
-        // 获取网卡名称（新增部分）
-        char deviceName[256] = {0};
-        DWORD dataType = 0;
-        if (!SetupDiGetDeviceRegistryPropertyA(hDevInfo, &devInfoData,
-                                               SPDRP_FRIENDLYNAME, &dataType,
-                                               (PBYTE)deviceName, sizeof(deviceName) - 1,
-                                               nullptr))
-        {
-            // 回退使用设备描述
-            SetupDiGetDeviceRegistryPropertyA(hDevInfo, &devInfoData,
-                                              SPDRP_DEVICEDESC, &dataType,
-                                              (PBYTE)deviceName, sizeof(deviceName) - 1,
-                                              nullptr);
-        }
-
         // 赋值MAC地址
         memcpy(info.macAddress, outBuffer, 6);
-        // 赋值网卡名称
-        if (strlen(deviceName) > 0)
+
+        // 获取网卡名称（不关心失败）
+        char deviceName[512] = {0};
+        DWORD deviceNameRequiredSize = 0;
+        ok = SetupDiGetDeviceRegistryPropertyA(hDevInfo, &devInfoData,
+                                               SPDRP_FRIENDLYNAME, nullptr,
+                                               (PBYTE)deviceName, sizeof(deviceName),
+                                               &deviceNameRequiredSize);
+        if (ok)
         {
-            info.netCardName = (char *)malloc(strlen(deviceName));
-            memcpy(info.netCardName, deviceName, strlen(deviceName));
+            // 赋值网卡名称
+            info.netCardName = (char *)malloc(deviceNameRequiredSize);
+            memcpy(info.netCardName, deviceName, deviceNameRequiredSize);
         }
+
         // 添加到列表中
         list.insert(list.end(), info);
-
         // 关闭文件句柄
         CloseHandle(deviceFileHandle);
     }

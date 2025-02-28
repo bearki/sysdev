@@ -3,6 +3,7 @@ set(SOURCES sysdev.cpp NetworkCard.cpp)
 
 # # 配置静态库生成参数
 add_library(sysdev_linux STATIC ${SOURCES})
+set_target_properties(sysdev_linux PROPERTIES OUTPUT_NAME "sysdev")
 
 # 指定make install后头文件、静态库，动态库，可执行文件存放目录
 set(INSTALL_PATH libsysdev_${BUILD_OS}_${BUILD_ARCH})
