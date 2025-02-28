@@ -6,5 +6,5 @@ includedir=${prefix}/include
 Name: System Device Info
 Description: System Device Info Library
 Version: ENV_LIBRARY_VERSION
-Libs: -L${libdir} -Wl,-Bstatic -lsysdev -lstdc++ -Wl,-Bdynamic
+Libs: -L${libdir} -Wl,-Bstatic -lsysdev -lstdc++ -lgcc -Wl,-Bdynamic
 Cflags: -I${includedir}
