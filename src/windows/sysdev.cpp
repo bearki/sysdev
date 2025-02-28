@@ -7,16 +7,19 @@
  * @param size [out] 网卡信息列表大小
  * @return 状态码
  */
-StatusCode SysDevGetNetworkCardInfo(NetworkCardInfo **pInfo, size_t *size) {
+StatusCode SysDevGetNetworkCardInfo(NetworkCardInfo **pInfo, size_t *size)
+{
     // 检查
-    if (pInfo == nullptr || size == nullptr) {
+    if (pInfo == nullptr || size == nullptr)
+    {
         return StatusCode::StatusCode_ErrInputParam;
     }
 
     // 获取网卡信息列表
     std::vector<NetworkCardInfo> list;
     auto code = NetworkCard::GetList(list);
-    if (code != StatusCode::StatusCode_Success) {
+    if (code != StatusCode::StatusCode_Success)
+    {
         return code;
     }
 
@@ -36,10 +39,23 @@ StatusCode SysDevGetNetworkCardInfo(NetworkCardInfo **pInfo, size_t *size) {
  * @param size [in] 网卡信息列表大小
  * @return 状态码
  */
-StatusCode SysDevFreeNetworkCardInfo(NetworkCardInfo *pInfo, size_t size) {
+StatusCode SysDevFreeNetworkCardInfo(NetworkCardInfo *pInfo, size_t size)
+{
     // 检查
-    if (pInfo == nullptr || size == 0) {
+    if (pInfo == nullptr || size == 0)
+    {
         return StatusCode::StatusCode_Success;
+    }
+
+    // 遍历
+    for (size_t i = 0; i < size; i++)
+    {
+        // 检查内部元素是否需要释放
+        if (pInfo[i].netCardName != nullptr)
+        {
+            free(pInfo[i].netCardName);
+            pInfo[i].netCardName = nullptr;
+        }
     }
 
     // 释放整个列表

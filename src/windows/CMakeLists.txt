@@ -10,4 +10,4 @@ set(INSTALL_PATH libsysdev_${BUILD_OS}_${BUILD_ARCH})
 # 头文件
 install(FILES ${CMAKE_SOURCE_DIR}/include/sysdev/sysdev.h DESTINATION ${INSTALL_PATH}/include)
 # ARCHIVE-静态库，LIBRATY-动态库，RUNTIME-可执行二进制文件
-install(TARGETS sysdev ARCHIVE DESTINATION ${INSTALL_PATH}/lib)
+install(TARGETS sysdev_windows ARCHIVE DESTINATION ${INSTALL_PATH}/lib)

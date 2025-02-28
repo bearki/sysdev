@@ -1,24 +1,7 @@
 #pragma once
 
-#include <windows.h>
-
-// 傻逼
-#include <cfgmgr32.h>
-#include <devguid.h>
-#include <handleapi.h>
-#include <initguid.h>
-#include <ntddndis.h>
-#include <setupapi.h>
 #include <sysdev/sysdev.h>
-
 #include <string>
-
-#ifdef __MINGW32__
-#include <ddk/ndisguid.h>
-#else
-#include <ndisguid.h>
-#endif   // __MINGW32__
-
 #include <vector>
 
 #ifndef _NETWORK_CARD_INFO_HPP_
