@@ -20,7 +20,7 @@ int main()
         char address[18] = {0};
         for (size_t i = 0; i < sizeof(item.macAddress); i++)
         {
-            printf(address + i * 3, i == sizeof(item.macAddress) - 1 ? "%02x" : "%02x:", item.macAddress[i]);
+            sprintf(address + i * 3, i == sizeof(item.macAddress) - 1 ? "%02x" : "%02x:", item.macAddress[i]);
         }
 
         std::cout << "\tName: " << item.netCardName
