@@ -35,6 +35,11 @@ bool GetNetworkCardType(const std::string &interfaceName, NetworkCardType &inter
         interfaceType = NetworkCardType::NetworkCardType_PCI;
         return true;
     }
+    else if (subsystemStr.find("platform") != std::string::npos)
+    {
+        interfaceType = NetworkCardType::NetworkCardType_PCI;
+        return true;
+    }
     else if (subsystemStr.find("usb") != std::string::npos)
     {
         interfaceType = NetworkCardType::NetworkCardType_USB;
