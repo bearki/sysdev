@@ -23,6 +23,8 @@ try {
     $OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = [Text.UTF8Encoding]::UTF8
     # 遇到错误立即停止
     $ErrorActionPreference = 'Stop'
+    # 版本号移除前置v、V
+    $buildVersionNumber = $BuildVersion.TrimStart('v').TrimStart("V")
     # 配置项目目录
     $projectDir = (Resolve-Path "${PSScriptRoot}\..\").Path
     # 配置构建目录
@@ -136,7 +138,7 @@ try {
 
     Write-Host "---------------------------------- 执行压缩 ----------------------------------"
     # 拷贝pkg-config配置文件，并赋值版本号
-    $mfPcContent = (Get-Content -Path "${installDir}\libsysdev_windows_${BuildArch}\sysdev.pc") -creplace "ENV_LIBRARY_VERSION", "${BuildVersion}"
+    $mfPcContent = (Get-Content -Path "${installDir}\libsysdev_windows_${BuildArch}\sysdev.pc") -creplace "ENV_LIBRARY_VERSION", "${buildVersionNumber}"
     $mfPcContent | Set-Content -Path "${installDir}\libsysdev_windows_${BuildArch}\sysdev.pc" -Force
     # 执行压缩
     Compress-Archive -Force -Path "${installDir}\libsysdev_windows_${BuildArch}\*" -DestinationPath "${publishDir}\libsysdev_windows_${BuildArch}_msvc.zip"
