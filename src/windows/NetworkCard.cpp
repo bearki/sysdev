@@ -1,4 +1,5 @@
 #include "NetworkCard.hpp"
+#include "StringConvert.hpp"
 #include <string>
 #include <windows.h>
 #include <cfgmgr32.h>
@@ -57,6 +58,8 @@ StatusCode NetworkCard::GetList(std::vector<NetworkCardInfo> &list)
 
         // 构建网卡信息
         NetworkCardInfo info;
+        // Windows下暂时不获取网卡名称，Windows7会有乱码问题
+        info.netCardName = nullptr;
         // 检查设备路径中是否包含指定字符串
         std::string link_path = deviceInterfaceDetailData->DevicePath;
         if (link_path.find("pci") != link_path.npos)
@@ -98,25 +101,41 @@ StatusCode NetworkCard::GetList(std::vector<NetworkCardInfo> &list)
                              &_bytesReturned, nullptr);
         if (!ok)
         {
+            // 释放开辟的接收缓冲区
+            free(deviceInterfaceDetailData);
             // 获取失败，跳过
             continue;
         }
+
         // 赋值MAC地址
         memcpy(info.macAddress, outBuffer, 6);
 
-        // 获取网卡名称（不关心失败）
-        char deviceName[512] = {0};
-        DWORD deviceNameRequiredSize = 0;
-        ok = SetupDiGetDeviceRegistryPropertyA(hDevInfo, &devInfoData,
-                                               SPDRP_FRIENDLYNAME, nullptr,
-                                               (PBYTE)deviceName, sizeof(deviceName),
-                                               &deviceNameRequiredSize);
-        if (ok)
+        // 获取网卡名称（失败时忽略）
         {
-            // 赋值网卡名称
-            info.netCardName = (char *)malloc(deviceNameRequiredSize);
-            memcpy(info.netCardName, deviceName, deviceNameRequiredSize);
+            WCHAR deviceName[4096] = {0}; // 宽字符数组，大小应为 512 * 2 bytes
+            DWORD deviceNameRequiredSize = 0;
+
+            // 直接获取，失败就不要了
+            ok = SetupDiGetDeviceRegistryPropertyW(
+                hDevInfo,
+                &devInfoData,
+                SPDRP_FRIENDLYNAME,
+                nullptr,
+                (LPBYTE)deviceName, // LPBYTE 可以指向任何字节类型的数据
+                sizeof(deviceName), // 缓冲区总大小（字节）
+                &deviceNameRequiredSize);
+            if (ok)
+            {
+                // 转换为UTF8编码
+                auto deviceNameUtf8 = WStringToString(deviceName);
+                // 拷贝名称
+                info.netCardName = (char *)malloc(deviceNameUtf8.size() + 1);
+                memcpy(info.netCardName, deviceNameUtf8.c_str(), deviceNameUtf8.size());
+            }
         }
+
+        // 释放开辟的接收缓冲区
+        free(deviceInterfaceDetailData);
 
         // 添加到列表中
         list.insert(list.end(), info);

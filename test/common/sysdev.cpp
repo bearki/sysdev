@@ -23,8 +23,14 @@ int main()
             sprintf(address + i * 3, i == sizeof(item.macAddress) - 1 ? "%02x" : "%02x:", item.macAddress[i]);
         }
 
-        std::cout << "\tName: " << item.netCardName
-                  << "\t | Type: " << item.netCardType
+        // 检查网卡名称是否为空
+        if (item.netCardName != nullptr)
+        {
+            std::cout << "\tName: " << item.netCardName;
+        }
+
+        // 打印信息
+        std::cout << "\t | Type: " << item.netCardType
                   << "\t | MacAddress: " << address
                   << std::endl;
     }
