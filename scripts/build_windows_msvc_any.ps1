@@ -121,8 +121,8 @@ try {
     # # 执行CMake
     Write-Host "------------------------------- 执行CMake:配置 -------------------------------"
     cmake -G "${VsVersion}" `
-        -DCMAKE_SYSTEM_NAME="Windows" `
         -DCMAKE_SYSTEM_PROCESSOR="${BuildArch}" `
+        -DCMAKE_TOOLCHAIN_FILE="${projectDir}/cmake-toolchains/windows-msvc-toolchain.cmake" `
         -S"${projectDir}" `
         -B"${buildDir}" `
         -T host="${vcHost}" `
@@ -138,7 +138,7 @@ try {
 
     Write-Host "---------------------------------- 执行压缩 ----------------------------------"
     # 拷贝pkg-config配置文件，并赋值版本号
-    $mfPcContent = (Get-Content -Path "${installDir}\libsysdev_windows_${BuildArch}\sysdev.pc") -creplace "ENV_LIBRARY_VERSION", "${buildVersionNumber}"
+    $mfPcContent = (Get-Content -Path "${installDir}\libsysdev_windows_${BuildArch}\sysdev_msvc.pc") -creplace "ENV_LIBRARY_VERSION", "${buildVersionNumber}"
     $mfPcContent | Set-Content -Path "${installDir}\libsysdev_windows_${BuildArch}\sysdev.pc" -Force
     # 执行压缩
     Compress-Archive -Force -Path "${installDir}\libsysdev_windows_${BuildArch}\*" -DestinationPath "${publishDir}\libsysdev_windows_${BuildArch}_msvc.zip"

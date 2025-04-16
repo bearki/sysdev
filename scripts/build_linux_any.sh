@@ -106,7 +106,7 @@ cmake --install "${buildDir}" --config "${buildType}" --prefix "${installDir}"
 # 执行压缩
 echo "---------------------------------- 执行压缩 ----------------------------------"
 # 赋值pkg-config配置信息版本号
-sed -i "s@ENV_LIBRARY_VERSION@${buildVersionNumber}@g" "${installDir}/libsysdev_linux_${BuildArch}/sysdev.pc"
+sed -i "s@ENV_LIBRARY_VERSION@${buildVersionNumber}@g" "${installDir}/libsysdev_linux_${BuildArch}/sysdev_${ToolchainVender}.pc"
 # 压缩库
 tar -czvf "${publishDir}/libsysdev_linux_${BuildArch}_${ToolchainVender}.tar.gz" -C "${installDir}/libsysdev_linux_${BuildArch}" .
 
