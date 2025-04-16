@@ -108,7 +108,7 @@ echo "---------------------------------- 执行压缩 --------------------------
 # 赋值pkg-config配置信息版本号
 sed -i "s@ENV_LIBRARY_VERSION@${buildVersionNumber}@g" "${installDir}/libsysdev_linux_${BuildArch}/sysdev.pc"
 # 压缩库
-tar -czvf "${publishDir}/libsysdev_linux_${BuildArch}_gnu.tar.gz" -C "${installDir}/libsysdev_linux_${BuildArch}" .
+tar -czvf "${publishDir}/libsysdev_linux_${BuildArch}_${ToolchainVender}.tar.gz" -C "${installDir}/libsysdev_linux_${BuildArch}" .
 
 # 构建结束
 echo "--------------------------------- 构建:结束 ----------------------------------"
